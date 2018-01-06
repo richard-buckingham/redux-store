@@ -4,26 +4,35 @@ export class Store {
     private state: { [key: string]: any };
 
     constructor(reducers: any = {}, initialState: any = {}) {
-        console.log('despatching an action for initialState');
-        this.state = this.reduce(initialState, {});
+        this.subscribers = [];
         this.reducers = reducers;
+        this.state = this.reduce(initialState, {});
     }
 
     get value(): any {
         return this.state;
     }
 
+    subscribe(fn) {
+        this.subscribers = [...this.subscribers, fn];
+        this.notify();
+    }
+
+    private notify() {
+        // loop through each subscriber, passing in the state
+        console.log('about to motify all subscribers...');
+        this.subscribers.forEach(fn => fn(this.value));
+    }
+
     dispatch(action: any) {
         // create a new object, add the existing state, then append on the new data
         console.log('dispatching an action..');
         this.state = this.reduce(this.state, action);
+        this.notify();
     }
 
+
     private reduce(state, action) {
-        console.log('reducing..');
-        console.log('state = ', state);
-        console.log('action = ', action);
-        console.log('this.reducers = ', this.reducers);
 
         const newState = {};
 
@@ -34,7 +43,7 @@ export class Store {
             newState[prop] = this.reducers[prop](state[prop], action);
         }
 
-        console.log('newState = ', newState);
+        //console.log('newState = ', newState);
         return newState;
     }
 }

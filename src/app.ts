@@ -32,12 +32,17 @@ button.addEventListener(
       }
     )
 
-    console.log(store.value);
+    //console.log(store.value);
 
     input.value = "";
   },
   false
 );
+
+// allow for unsubscribe, to prevent memory leaks
+const unsubscribe = store.subscribe(state => {
+  renderTodos(state.todo.data);
+})
 
 todoList.addEventListener("click", function(event) {
   const target = event.target as HTMLButtonElement;
@@ -45,3 +50,7 @@ todoList.addEventListener("click", function(event) {
     console.log(target);
   }
 });
+
+store.subscribe(state => {
+  console.log('STATE:::', state);
+})

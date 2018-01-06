@@ -8,10 +8,6 @@ export const initialState = {
 export function reducer(state = initialState,
     action: { type: string, payload: any }) {
 
-    console.log('in the reducer');
-    console.log('state = ', state);
-    console.log('action = ', action);
-
     switch (action.type) {
         case 'ADD_TODO': {
             // get the new todo
