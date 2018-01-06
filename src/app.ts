@@ -7,10 +7,13 @@ const button = document.querySelector('button') as HTMLButtonElement;
 const destroy = document.querySelector('.unsubscribe') as HTMLButtonElement;
 const todoList = document.querySelector('.todos') as HTMLLIElement;
 
-// create an instnce of our store
-const store = new fromStore.Store({}, {
-  todos: [{label: "have a herbal tea", complete: false}]
-});
+// create the reducer
+const reducers = {
+  todo: fromStore.reducer // todo: is simply referencing a function (reducer)...
+}
+
+// create an instnce of our store, passing in our reducer
+const store = new fromStore.Store(reducers);
 
 // check the store value
 console.log(store.value);
@@ -28,6 +31,8 @@ button.addEventListener(
         payload
       }
     )
+
+    console.log(store.value);
 
     input.value = "";
   },
