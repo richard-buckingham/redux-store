@@ -1,4 +1,3 @@
-// import from the store folder
 import * as fromStore from './store';
 
 import { renderTodos } from './utils';
@@ -10,7 +9,7 @@ const todoList = document.querySelector('.todos') as HTMLLIElement;
 
 // create an instnce of our store
 const store = new fromStore.Store({}, {
-  todos: [{label: 'have a herbal tea', complete: false}]
+  todos: [{label: "have a herbal tea", complete: false}]
 });
 
 // check the store value
@@ -19,21 +18,25 @@ console.log(store.value);
 button.addEventListener(
   'click',
   () => {
-    if (!input.value.trim()) return;
+    if (!input.value.trim()) { return; }
 
     const payload = { label: input.value, complete: false };
 
-    // need to dispatch an action from here
-    console.log(payload);
+    // dispatch action
+    store.dispatch({
+        type: "ADD_TODO",
+        payload
+      }
+    )
 
-    input.value = '';
+    input.value = "";
   },
   false
 );
 
-todoList.addEventListener('click', function(event) {
+todoList.addEventListener("click", function(event) {
   const target = event.target as HTMLButtonElement;
-  if (target.nodeName.toLowerCase() === 'button') {
+  if (target.nodeName.toLowerCase() === "button") {
     console.log(target);
   }
 });
